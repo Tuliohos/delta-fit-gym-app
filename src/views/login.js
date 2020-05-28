@@ -1,8 +1,9 @@
 import React from 'react'
 import {withRouter} from 'react-router-dom'
 
-import UsuarioService from '../app/service/userService'
+import EmployeeService from '../app/service/employeeService'
 import LocalStorageService from '../app/service/localStorageService'
+import { AuthContext } from '../main/authenticationProvider'
 
 import Card from '../components/card'
 import FormGroup from '../components/form-group'
@@ -17,20 +18,20 @@ class Login extends React.Component{
 
     constructor(){
         super();
-        this.service = new UsuarioService();
+        this.service = new EmployeeService();
         this.localStorageService = new LocalStorageService();
     }
     
     login = async () => {
-        this.service.autenticar({
+        this.service.signIn({
             email: this.state.email,
             password: this.state.password
         }).then(response => {
-            this.localStorageService.addItem('_authenticated_user', response.data);
-            this.history.push('/home')
+            this.context.initSession(response.data)
+            this.props.history.push('/home')
         }).catch(error => {
             errorMessage(error.response.data)
-        })
+        });
     }
 
     render (){
@@ -77,5 +78,7 @@ class Login extends React.Component{
         
     }
 }
+
+Login.contextType = AuthContext
 
 export default withRouter(Login)
