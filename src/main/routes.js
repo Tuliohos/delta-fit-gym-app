@@ -6,6 +6,7 @@ import { Route, Switch, HashRouter, Redirect } from 'react-router-dom'
 import Login from '../views/login'
 import Home from '../views/home'
 import EmployeeList from '../views/employee/employeeList'
+import EmployeeRegistration from '../views/employee/employeeRegistration'
 
 function AuthenticatedRoute( { component: Component, isAuthenticatedUser, ...props} ){
     return (
@@ -32,6 +33,7 @@ function Routes(props){
                
                 <AuthenticatedRoute path="/home" component={Home} isAuthenticatedUser={props.isAuthenticatedUser}/>
                 <AuthenticatedRoute path="/lista-funcionario" component={EmployeeList} isAuthenticatedUser={props.isAuthenticatedUser}/>
+                <AuthenticatedRoute path="/cadastro-funcionario" component={EmployeeRegistration} isAuthenticatedUser={props.isAuthenticatedUser}/>
             </Switch>
         </HashRouter>
     )
