@@ -33,7 +33,7 @@ function Routes(props){
                
                 <AuthenticatedRoute path="/home" component={Home} isAuthenticatedUser={props.isAuthenticatedUser}/>
                 <AuthenticatedRoute path="/lista-funcionario" component={EmployeeList} isAuthenticatedUser={props.isAuthenticatedUser}/>
-                <AuthenticatedRoute path="/cadastro-funcionario" component={EmployeeRegistration} isAuthenticatedUser={props.isAuthenticatedUser}/>
+                <AuthenticatedRoute path="/cadastro-funcionario/:cod?" component={EmployeeRegistration} isAuthenticatedUser={props.isAuthenticatedUser}/>
             </Switch>
         </HashRouter>
     )

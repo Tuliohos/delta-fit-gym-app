@@ -1,3 +1,15 @@
+## To install the project dependencies, run the follow commands:
+
+yarn add bootswatch //Themes 
+yarn add react-router-dom //Routing
+yarn add axios // Promise based HTTP client for the browser and node.js
+yarn add toastr // System messages
+yarn add currency-formatter //Monetary formation
+yarn add primereact primeicons classnames react-transition-group //Primereact
+yarn add primeflex //Primeflax
+
+## -----------------------------------------------------------------------------------------------------
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

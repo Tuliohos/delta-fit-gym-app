@@ -19,19 +19,55 @@ class EmployeeService extends ApiService{
         return this.post('', employee);
     }
 
+    deleteEmployee(cod){
+        return this.delete(`/${cod}`);
+    }
+
+    findByCod(cod){
+        return this.get(`/${cod}`);
+    }
+
     getEmployeeFromState(state){
         return {
+            cod: state.cod,
             person:{
+                cod: state.personCod,
                 name: state.name,
                 cpf: state.cpf,
                 phoneNumber: state.phoneNumber
             },
             user:{
+                cod: state.userCod,
                 email: state.email,
                 password: state.password,
             },
+            dateTimeHire: state.dateTimeHire,
             salary: state.salary
         }
+    }
+
+    getStateFromEmployee(employee){
+
+        const state = {
+            cod: employee.cod,
+            personCod: employee.person.cod,
+            name: employee.person.name,
+            cpf: employee.person.cpf,
+            phoneNumber: employee.person.phoneNumber,
+            dateTimeHire: employee.dateTimeHire,
+            salary: employee.salary,
+            userCod: undefined,
+            email: '',
+            password: ''
+        };
+        
+        if(employee.user){
+            state.userCod = employee.user.cod;
+            state.email = employee.user.email;
+            state.password = employee.user.email;
+        }
+        
+        return state;
     }
 
     validate(employee){

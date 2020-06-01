@@ -14,17 +14,36 @@ import EmployeeService from '../../app/service/employeeService'
 class EmployeeRegistration extends React.Component{
 
     state = {
+        cod: undefined,
+        personCod: undefined,
         name: '',
         cpf: '',
         phoneNumber: '',
+        userCod: undefined,
         email: '',
         password: '',
-        salary: undefined
+        dateTimeHire: undefined,
+        salary: undefined,
+        editing: false
     }
 
     constructor(){
         super();
         this.service = new EmployeeService();
+    }
+
+    componentDidMount(){
+        const params = this.props.match.params;
+        if(params.cod){
+            this.service
+                .findByCod(params.cod)
+                .then(response => {
+                    const state = this.service.getStateFromEmployee(response.data);
+                    this.setState( {...state, editing: true} )
+                }).catch(error =>{
+                    errorMessage(error.response.data);
+                })
+        }
     }
 
     submit = () => {
