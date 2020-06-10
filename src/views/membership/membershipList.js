@@ -9,58 +9,57 @@ import {Dialog} from 'primereact/dialog'
 import {successMessage, errorMessage} from '../../components/toastr'
 import Card from '../../components/card'
 
-import EmployeeService from '../../app/service/employeeService'
+import MembershipService from '../../app/service/membershipService'
 
-class EmployeeList extends React.Component{
+class MembershipList extends React.Component{
 
     state = {
-        name: "",
-        cpf: "",
-        email: "",
-        employees: [],
-        showConfirmDialog: false,
-        employeeToDelete: undefined
+        cod: undefined,
+        description: '',
+        price: undefined,
+        memberships: [],
+        membershipToDelete: null
     };
 
     constructor(){
         super();
-        this.service = new EmployeeService();
+        this.service = new MembershipService();
         this.actionButtons = this.actionButtons.bind(this);
     }
 
     componentDidMount() {
         this.service.loadList()
-            .then(response => this.setState({employees: response.data}))
+            .then(response => this.setState({memberships: response.data}))
             .catch(error => errorMessage(error));
     }
 
-    renderEmployeeRegistration = () => {
-        this.props.history.push('/cadastro-funcionario');
+    renderMembershipRegistration = () => {
+        this.props.history.push('/cadastro-plano-usuario');
     }
 
-    renderEmployeeEditing = (cod) => {
-        this.props.history.push(`/cadastro-funcionario/${cod}`);
+    renderMembershipEditing = (cod) => {
+        this.props.history.push(`/cadastro-plano-usuario/${cod}`);
     }
 
     delete = () => {
-        this.service.deleteEmployee(this.state.employeeToDelete.cod)
+        this.service.deleteMembership(this.state.membershipToDelete.cod)
         .then(response => {
-            const employees = this.state.employees;
-            const index = employees.indexOf(this.state.employeeToDelete);
-            employees.splice(index, 1);
-            this.setState({employees: employees, showConfirmDialog: false});
-            successMessage("Funcionário deletado com sucesso!");
+            const memberships = this.state.memberships;
+            const index = memberships.indexOf(this.state.membershipToDelete);
+            memberships.splice(index, 1);
+            this.setState({memberships: memberships, showConfirmDialog: false});
+            successMessage("Plano de usuário deletado com sucesso!");
         }).catch(error =>{
-            errorMessage("Ocorreu um erro ao tentar deletar o funcionário");
+            errorMessage("Ocorreu um erro ao tentar deletar o plano de usuário");
         })
     }
 
     showConfirmDialog = (rowData) => {
-        this.setState({ showConfirmDialog: true, employeeToDelete: rowData});
+        this.setState({ showConfirmDialog: true, membershipToDelete: rowData});
     }
 
     cancelDeleteAction = () => {
-        this.setState({ showConfirmDialog: false, employeeCodeToDelete: undefined});
+        this.setState({ showConfirmDialog: false, membershipCodeToDelete: undefined});
     }
 
     actionButtons(rowData){
@@ -70,7 +69,7 @@ class EmployeeList extends React.Component{
                     tooltip="Editar"
                     icon="pi pi-pencil"
                     className="p-button-secondary"
-                    onClick={()=>this.renderEmployeeEditing(rowData.cod)}/>
+                    onClick={()=>this.renderMembershipEditing(rowData.cod)}/>
                 <Button  
                     tooltip="Excluir"
                     icon="pi pi-trash"
@@ -97,18 +96,17 @@ class EmployeeList extends React.Component{
                             className="p-button-success float-right"
                             label="Adicionar"
                             icon="pi pi-plus"
-                            onClick={this.renderEmployeeRegistration}/>
+                            onClick={this.renderMembershipRegistration}/>
                     </div>
                 </div>
                 <br/>
                 <div className="row">
                     <div className="col-md-12">
-                        <DataTable value={this.state.employees} responsive rowHover  paginator={true}
-                            rows={10} alwaysShowPaginator={false} emptyMessage="Não há funcionários cadastrados.">
-                            <Column field="person.name" header="Nome" filter={true} sortable={true} />
-                            <Column field="person.cpf" header="CPF" filter={true} style={{textAlign:'center'}}/>
-                            <Column field="user.email"  header="E-mail" filter={true}/>
-                            <Column field="cod" body={this.actionButtons} header="Ações" 
+                        <DataTable value={this.state.memberships} responsive rowHover  paginator={true} 
+                            rows={10} alwaysShowPaginator={false} emptyMessage="Não há planos de usuário cadastrados.">
+                            <Column field="description" header="Descrição" filter={true} sortable={true} />
+                            <Column field="price" header="Preço" filter={true}/>
+                            <Column field="cod" body={this.actionButtons}  header="Ações" 
                                 style={{textAlign: 'center', width: '10em', overflow: 'visible'}} />
                         </DataTable>
                     </div>
@@ -119,11 +117,11 @@ class EmployeeList extends React.Component{
                     footer={confirmDialogFooter}
                     modal={true}
                     onHide={() => this.setState({showConfirmDialog: false})}>
-                    Confirma a exclusão deste funcionário ?
+                    Confirma a exclusão deste plano ?
                 </Dialog>
             </Card>
         );
     }
 }
 
-export default withRouter(EmployeeList); 
+export default withRouter(MembershipList); 

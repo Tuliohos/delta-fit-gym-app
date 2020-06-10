@@ -7,11 +7,12 @@ import FormGroup from '../../components/form-group'
 
 import {Button} from 'primereact/button'
 import {InputMask} from 'primereact/inputmask';
-import {InputNumber} from 'primereact/inputnumber'
+import {Dropdown} from 'primereact/dropdown';
 
-import EmployeeService from '../../app/service/employeeService'
+import MemberService from '../../app/service/memberService'
+import MembershipService from '../../app/service/membershipService'
 
-class EmployeeRegistration extends React.Component{
+class MemberRegistration extends React.Component{
 
     state = {
         cod: undefined,
@@ -19,26 +20,32 @@ class EmployeeRegistration extends React.Component{
         name: '',
         cpf: '',
         phoneNumber: '',
-        userCod: undefined,
-        email: '',
-        password: '',
-        dateTimeHire: undefined,
-        salary: undefined,
+        membershipCod: undefined,
+        dateTimeRegistration: undefined,
+        memberships: [],
         editing: false
     }
 
     constructor(){
         super();
-        this.service = new EmployeeService();
+        this.service = new MemberService();
+        this.membershipService = new MembershipService();
     }
 
     componentDidMount(){
+        this.membershipService.loadList()
+        .then(response => {
+            this.setState({memberships: response.data});
+        }).catch(error =>{
+            errorMessage(error.response.data);
+        })
+
         const params = this.props.match.params;
         if(params.cod){
             this.service
                 .findByCod(params.cod)
                 .then(response => {
-                    const state = this.service.getStateFromEmployee(response.data);
+                    const state = this.service.getStateFromMember(response.data);
                     this.setState( {...state, editing: true} )
                 }).catch(error =>{
                     errorMessage(error.response.data);
@@ -47,20 +54,20 @@ class EmployeeRegistration extends React.Component{
     }
 
     submit = () => {
-        const employee = this.service.getEmployeeFromState(this.state);
+        const member = this.service.getMemberFromState(this.state);
         
         try{
-            this.service.validate(employee)
+            this.service.validate(member)
         }catch(error){
             const msgs = error.messages;
             msgs.forEach(msg => errorMessage(msg));
             return false;
         }
 
-        this.service.save(employee)
+        this.service.save(member)
             .then(response => {
-                successMessage('Funcionário cadastrado com sucesso!')
-                this.props.history.push('/lista-funcionarios');
+                successMessage('Membro cadastrado com sucesso!')
+                this.props.history.push('/lista-membros');
             }).catch(error =>{
                 errorMessage(error.response.data);
             });
@@ -68,7 +75,7 @@ class EmployeeRegistration extends React.Component{
     }
 
     cancel = () => {
-        this.props.history.push('/lista-funcionarios');
+        this.props.history.push('/lista-membros');
     }
 
     handleChange = (e) => {
@@ -77,7 +84,7 @@ class EmployeeRegistration extends React.Component{
 
     render(){
         return(
-            <Card title='Cadastro de Funcionário'>
+            <Card title='Cadastro de Membro'>
 
                 <div className="row">
                     <div className="col-md-12">
@@ -104,43 +111,20 @@ class EmployeeRegistration extends React.Component{
                                 onChange={this.handleChange}/>
                         </FormGroup>
                     </div>
-                    
-                    <div className="col-md-6">
-                        <FormGroup label="Salário: *" htmlFor="inputSalary">
-                            <InputNumber
-                                id="inputSalary"
-                                value={this.state.salary}
-                                className="form-control-plaintext"
-                                mode="currency"
-                                currency="BRL"
-                                name="salary"
-                                onChange={this.handleChange}/>
-                        </FormGroup>
-                    </div>
-                </div>
 
-                <div className="row">
                     <div className="col-md-6">
-                        <FormGroup label="E-mail:" htmlFor="inputEmail">
-                            <input type="email"
-                                id="inputEmail"
-                                value={this.state.email}
-                                className="form-control"
-                                name="email"
-                                onChange={this.handleChange}/>
+                        <FormGroup label="Plano de usuário: *" htmlFor="inputCPF">
+                            <Dropdown optionLabel="description" 
+                                optionValue="cod" 
+                                className="form-control-plaintext"
+                                value={this.state.membershipCod} 
+                                options={this.state.memberships} 
+                                name="membershipCod"
+                                onChange={this.handleChange} 
+                                placeholder="Selecione um plano"/>
                         </FormGroup>
                     </div>
-               
-                    <div className="col-md-6">
-                        <FormGroup label="Senha:" htmlFor="inputPassword">
-                            <input type="password"
-                                id="inputPassword"
-                                value={this.state.password}
-                                className="form-control"
-                                name="password"
-                                onChange={this.handleChange}/>
-                        </FormGroup>
-                    </div>
+
                 </div>
 
                 <div className="row">
@@ -175,4 +159,4 @@ class EmployeeRegistration extends React.Component{
     }
 } 
 
-export default withRouter(EmployeeRegistration);
+export default withRouter(MemberRegistration);
