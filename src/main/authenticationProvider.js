@@ -10,29 +10,29 @@ class AuthenticationProvider extends React.Component{
 
     state = {
         authenticatedUser: null,
-        isAuthenticatedUser: false
+        isAuthenticated: false
     }
 
     initSession = (user) => {
         AuthService.logIn(user)
-        this.setState({isAuthenticatedUser: true, authenticatedUser: user})
+        this.setState({isAuthenticated: true, authenticatedUser: user})
     }
 
     endSession = () => {
         AuthService.removeAuthenticatedUser()
-        this.setState({isAuthenticatedUser: false, authenticatedUser: null})
+        this.setState({isAuthenticated: false, authenticatedUser: null})
     }
 
     render(){
-        const contexto = {
+        const context = {
             authenticatedUser: this.state.authenticatedUser,
-            isAuthenticatedUser: this.state.isAuthenticatedUser,
+            isAuthenticated: this.state.isAuthenticated,
             initSession: this.initSession,
             endSession: this.endSession
         }
 
         return(
-            <AuthProvider value={contexto}>
+            <AuthProvider value={context}>
                 {this.props.children}
             </AuthProvider>
         )

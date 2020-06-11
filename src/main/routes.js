@@ -11,6 +11,8 @@ import MemberList from '../views/member/memberList'
 import MemberRegistration from '../views/member/memberRegistration'
 import MembershipList from '../views/membership/membershipList'
 import MembershipRegistration from '../views/membership/membershipRegistration'
+import PaymentList from '../views/payment/paymentList'
+import PaymentRegistration from '../views/payment/paymentRegistration'
 
 function AuthenticatedRoute( { component: Component, isAuthenticatedUser, ...props} ){
     return (
@@ -42,6 +44,8 @@ function Routes(props){
                 <AuthenticatedRoute path="/cadastro-membro/:cod?" component={MemberRegistration} isAuthenticatedUser={props.isAuthenticatedUser}/>
                 <AuthenticatedRoute path="/lista-planos-usuario" component={MembershipList} isAuthenticatedUser={props.isAuthenticatedUser}/>
                 <AuthenticatedRoute path="/cadastro-plano-usuario/:cod?" component={MembershipRegistration} isAuthenticatedUser={props.isAuthenticatedUser}/>
+                <AuthenticatedRoute path="/lista-pagamentos" component={PaymentList} isAuthenticatedUser={props.isAuthenticatedUser}/>
+                <AuthenticatedRoute path="/cadastro-pagamento/:cod?" component={PaymentRegistration} isAuthenticatedUser={props.isAuthenticatedUser}/>
             </Switch>
         </HashRouter>
     )
@@ -49,6 +53,6 @@ function Routes(props){
 
 export default () => (
     <AuthConsumer>
-        { (context) => (<Routes isAuthenticatedUser={context.isAuthenticatedUser}/>) }
+        { (context) => (<Routes isAuthenticatedUser={context.isAuthenticated}/>) }
     </AuthConsumer>
 )

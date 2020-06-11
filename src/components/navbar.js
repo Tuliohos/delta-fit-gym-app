@@ -19,6 +19,7 @@ function Navbar(props){
                 <NavbarItem href="#/lista-funcionarios" label="Funcionários" render={props.isAuthenticatedUser}/>
                 <NavbarItem href="#/lista-membros" label="Membros" render={props.isAuthenticatedUser}/>
                 <NavbarItem href="#/lista-planos-usuario" label="Planos de usuário" render={props.isAuthenticatedUser}/>
+                <NavbarItem href="#/lista-pagamentos" label="Pagamentos" render={props.isAuthenticatedUser}/>
                 <NavbarItem href="#/login" label="Sair" render={props.isAuthenticatedUser} onClick={props.endSession}/>
             </ul>
 
@@ -31,7 +32,7 @@ function Navbar(props){
 export default () => (
     <AuthConsumer>
         {(context) => (
-            <Navbar isAuthenticatedUser={context.isAuthenticatedUser} endSession={context.endSession}/>
+            <Navbar isAuthenticatedUser={context.isAuthenticated} endSession={context.endSession}/>
         )}
     </AuthConsumer>
 )

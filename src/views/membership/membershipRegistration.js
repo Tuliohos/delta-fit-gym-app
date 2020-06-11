@@ -69,7 +69,7 @@ class MembershipRegistration extends React.Component{
 
     render(){
         return(
-            <Card title='Cadastro de Planos de Usuário'>
+            <Card title={this.state.editing ? 'Edição de Plano de Usuário' : 'Cadastro de Plano de Usuário'}>
 
                 <div className="row">
                     <div className="col-md-8">

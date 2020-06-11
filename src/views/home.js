@@ -1,4 +1,5 @@
 import React from 'react'
+import { AuthContext } from '../main/authenticationProvider'
 
 class Home extends React.Component{
 
@@ -10,5 +11,7 @@ class Home extends React.Component{
         )
     }
 }
+
+Home.contextType = AuthContext
 
 export default Home

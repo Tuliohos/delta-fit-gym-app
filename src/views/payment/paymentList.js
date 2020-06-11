@@ -10,45 +10,42 @@ import currencyFormatter from 'currency-formatter'
 import {successMessage, errorMessage} from '../../components/toastr'
 import Card from '../../components/card'
 
-import MembershipService from '../../app/service/membershipService'
+import PaymentService from '../../app/service/paymentService'
 
-class MembershipList extends React.Component{
+class PaymentList extends React.Component{
 
     state = {
-        cod: undefined,
-        description: '',
-        price: undefined,
-        memberships: [],
-        membershipToDelete: null
+        payments: [],
+        paymentToDelete: null
     };
 
     constructor(){
         super();
-        this.service = new MembershipService();
+        this.service = new PaymentService();
         this.actionButtons = this.actionButtons.bind(this);
     }
 
     componentDidMount() {
         this.service.loadList()
-            .then(response => this.setState({memberships: response.data}))
+            .then(response => this.setState({payments: response.data}))
             .catch(error => errorMessage(error));
     }
 
-    renderMembershipRegistration = () => {
-        this.props.history.push('/cadastro-plano-usuario');
+    renderPaymentRegistration = () => {
+        this.props.history.push('/cadastro-pagamento');
     }
 
-    renderMembershipEditing = (cod) => {
-        this.props.history.push(`/cadastro-plano-usuario/${cod}`);
+    renderPaymentEditing = (cod) => {
+        this.props.history.push(`/cadastro-pagamento/${cod}`);
     }
 
     delete = () => {
-        this.service.deleteMembership(this.state.membershipToDelete.cod)
+        this.service.deletePayment(this.state.paymentToDelete.cod)
         .then(response => {
-            const memberships = this.state.memberships;
-            const index = memberships.indexOf(this.state.membershipToDelete);
-            memberships.splice(index, 1);
-            this.setState({memberships: memberships, showConfirmDialog: false});
+            const payments = this.state.payments;
+            const index = payments.indexOf(this.state.paymentToDelete);
+            payments.splice(index, 1);
+            this.setState({payments: payments, showConfirmDialog: false});
             successMessage("Plano de usuário deletado com sucesso!");
         }).catch(error =>{
             errorMessage("Ocorreu um erro ao tentar deletar o plano de usuário");
@@ -56,11 +53,11 @@ class MembershipList extends React.Component{
     }
 
     showConfirmDialog = (rowData) => {
-        this.setState({ showConfirmDialog: true, membershipToDelete: rowData});
+        this.setState({ showConfirmDialog: true, paymentToDelete: rowData});
     }
 
     cancelDeleteAction = () => {
-        this.setState({ showConfirmDialog: false, membershipCodeToDelete: undefined});
+        this.setState({ showConfirmDialog: false, paymentCodeToDelete: undefined});
     }
 
     actionButtons(rowData){
@@ -70,10 +67,11 @@ class MembershipList extends React.Component{
                     tooltip="Editar"
                     icon="pi pi-pencil"
                     className="p-button-secondary"
-                    onClick={()=>this.renderMembershipEditing(rowData.cod)}/>
+                    disabled={rowData.status === "Cancelado"}
+                    onClick={()=>this.renderPaymentEditing(rowData.cod)}/>
                 <Button  
-                    tooltip="Excluir"
-                    icon="pi pi-trash"
+                    tooltip="Cancelar"
+                    icon="pi pi-times"
                     className="p-button-secondary"
                     onClick={()=>this.showConfirmDialog(rowData)}/>
             </div>   
@@ -81,9 +79,9 @@ class MembershipList extends React.Component{
     }
 
     priceBody(rowData) {
-        return <span>{currencyFormatter.format(rowData.price, {locale: 'pt-BR'})}</span>;
+        return <span>{currencyFormatter.format(rowData.value, {locale: 'pt-BR'})}</span>;
     }
-
+    
     render() {
 
         const confirmDialogFooter = (
@@ -94,23 +92,27 @@ class MembershipList extends React.Component{
         )
 
         return (
-            <Card title="Funcionários">
+            <Card title="Pagamentos">
                 <div className="row">
                     <div className="col-md-12">
                         <Button  
                             className="p-button-success float-right"
                             label="Adicionar"
                             icon="pi pi-plus"
-                            onClick={this.renderMembershipRegistration}/>
+                            onClick={this.renderPaymentRegistration}/>
                     </div>
                 </div>
                 <br/>
                 <div className="row">
                     <div className="col-md-12">
-                        <DataTable value={this.state.memberships} responsive rowHover  paginator={true} 
-                            rows={10} alwaysShowPaginator={false} emptyMessage="Não há planos de usuário cadastrados.">
-                            <Column field="description" header="Descrição" filter={true} sortable={true} />
-                            <Column field="price" header="Preço" body={this.priceBody} filter={true}/>
+                        <DataTable value={this.state.payments} responsive rowHover  paginator={true} 
+                            rows={10} alwaysShowPaginator={false} emptyMessage="Não há pagamentos cadastrados.">
+                            <Column field="memberName" header="Membro" filter={true} sortable={true} />
+                            <Column field="description" header="Descrição" filter={true}/>
+                            <Column field="value" header="Valor" body={this.priceBody} filter={true}/>
+                            <Column field="dateTimeRecord" header="Data de realização" filter={true} style={{textAlign:'center'}}/>
+                            <Column field="type" header="Forma de pagamento" filter={true}/>
+                            <Column field="status" header="Status" filter={true}/>
                             <Column field="cod" body={this.actionButtons}  header="Ações" 
                                 style={{textAlign: 'center', width: '10em', overflow: 'visible'}} />
                         </DataTable>
@@ -122,11 +124,11 @@ class MembershipList extends React.Component{
                     footer={confirmDialogFooter}
                     modal={true}
                     onHide={() => this.setState({showConfirmDialog: false})}>
-                    Confirma a exclusão deste plano ?
+                    Confirma o cancelamento deste pagamento ?
                 </Dialog>
             </Card>
         );
     }
 }
 
-export default withRouter(MembershipList); 
+export default withRouter(PaymentList); 

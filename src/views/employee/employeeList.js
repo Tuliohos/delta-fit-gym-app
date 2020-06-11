@@ -105,9 +105,9 @@ class EmployeeList extends React.Component{
                     <div className="col-md-12">
                         <DataTable value={this.state.employees} responsive rowHover  paginator={true}
                             rows={10} alwaysShowPaginator={false} emptyMessage="Não há funcionários cadastrados.">
-                            <Column field="person.name" header="Nome" filter={true} sortable={true} />
-                            <Column field="person.cpf" header="CPF" filter={true} style={{textAlign:'center'}}/>
-                            <Column field="user.email"  header="E-mail" filter={true}/>
+                            <Column field="name" header="Nome" filter={true} sortable={true} />
+                            <Column field="email" header="E-mail" filter={true}/>
+                            <Column field="dateTimeHire"  header="Data de contratação" filter={true} style={{textAlign:'center'}}/>
                             <Column field="cod" body={this.actionButtons} header="Ações" 
                                 style={{textAlign: 'center', width: '10em', overflow: 'visible'}} />
                         </DataTable>

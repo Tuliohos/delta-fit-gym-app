@@ -108,10 +108,10 @@ class MemberList extends React.Component{
                     <div className="col-md-12">
                         <DataTable value={this.state.members} responsive rowHover  paginator={true} 
                             rows={10} alwaysShowPaginator={false} emptyMessage="Não há membros cadastrados.">
-                            <Column field="person.name" header="Nome" filter={true} sortable={true} />
-                            <Column field="person.cpf" header="CPF" filter={true} style={{textAlign:'center'}}/>
-                            <Column field="dateTimeRegistration"  header="Data de Cadastro" filter={true}/>
-                            <Column field="membership.description"  header="Plano" filter={true}/>
+                            <Column field="name" header="Nome" filter={true} sortable={true} />
+                            <Column field="cpf" header="CPF" filter={true} style={{textAlign:'center'}}/>
+                            <Column field="dateTimeRegistration" header="Data de cadastro" style={{textAlign:'center'}} filter={true}/>
+                            <Column field="membership"  header="Plano" filter={true}/>
                             <Column field="cod" body={this.actionButtons} header="Ações" 
                                 style={{textAlign: 'center', width: '10em', overflow: 'visible'}} />
                         </DataTable>

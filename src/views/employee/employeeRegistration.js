@@ -77,7 +77,7 @@ class EmployeeRegistration extends React.Component{
 
     render(){
         return(
-            <Card title='Cadastro de Funcionário'>
+            <Card title={this.state.editing ? 'Edição de Funcionário' : 'Cadastro de Funcionário'}>
 
                 <div className="row">
                     <div className="col-md-12">

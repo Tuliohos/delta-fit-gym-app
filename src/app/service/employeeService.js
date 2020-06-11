@@ -28,7 +28,8 @@ class EmployeeService extends ApiService{
     }
 
     getEmployeeFromState(state){
-        return {
+
+        let employee = {
             cod: state.cod,
             person:{
                 cod: state.personCod,
@@ -36,14 +37,20 @@ class EmployeeService extends ApiService{
                 cpf: state.cpf,
                 phoneNumber: state.phoneNumber
             },
-            user:{
-                cod: state.userCod,
-                email: state.email,
-                password: state.password,
-            },
+            user: undefined,
             dateTimeHire: state.dateTimeHire,
             salary: state.salary
         }
+
+         if (state.email || state.password){
+            employee.user = {
+                cod: state.userCod,
+                email: state.email,
+                password: state.password,
+            }
+         }
+
+        return employee;
     }
 
     getStateFromEmployee(employee){
@@ -85,20 +92,22 @@ class EmployeeService extends ApiService{
             errors.push('O campo Salário é obrigatório.');
         }
 
-        if(employee.user.email){
-
-            if(!employee.user.email.match(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]/)){
-                errors.push('Informe um E-mail válido');
+        if(employee.user){
+            if(employee.user.email){
+    
+                if(!employee.user.email.match(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]/)){
+                    errors.push('Informe um E-mail válido');
+                }
+                
+                if(!employee.user.password || !employee.user.password){
+                    errors.push('Informe a senha');
+                }
+    
             }
             
-            if(!employee.user.password || !employee.user.password){
-                errors.push('Informe a senha');
+            if(employee.user.password && !employee.user.email){
+                errors.push('Informe o e-mail');
             }
-
-        }
-        
-        if(employee.user.password && !employee.user.email){
-            errors.push('Informe o e-mail');
         }
 
         if(errors && errors.length > 0){

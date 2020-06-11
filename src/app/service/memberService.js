@@ -50,8 +50,7 @@ class MemberService extends ApiService{
             phoneNumber: member.person.phoneNumber,
             dateTimeRegistration: member.dateTimeRegistration,
             membershipCod: member.membership.cod,
-            membershipDescription: member.membership.description,
-            dateTimeRegistration: member.dateTimeRegistration
+            membershipDescription: member.membership.description
         };
 
     }
