@@ -30,6 +30,7 @@ class MemberService extends ApiService{
                 cod: state.personCod,
                 name: state.name,
                 cpf: state.cpf,
+                gender: state.gender,
                 phoneNumber: state.phoneNumber
             },
             membership:{
@@ -47,12 +48,37 @@ class MemberService extends ApiService{
             personCod: member.person.cod,
             name: member.person.name,
             cpf: member.person.cpf,
+            gender: member.person.gender,
             phoneNumber: member.person.phoneNumber,
             dateTimeRegistration: member.dateTimeRegistration,
             membershipCod: member.membership.cod,
             membershipDescription: member.membership.description
         };
+    }
 
+    getGenderDescription(gender){
+        switch(gender){
+            case "M":
+                return "Masculino";
+            case "F":
+                return "Feminino";
+            case "I":
+                return "Indefinido";
+            default: 
+                return "Nenhuma das opções";
+        }
+    }
+
+    getGenderList(){
+        return [
+            {label: "Masculino", value:"M"},
+            {label: "Feminino", value:"F"},
+            {label: "Indefinido", value:"I"},
+        ]
+    }
+
+    getMembersGenderChartData(){
+        return this.get('/genders-chart');
     }
 
     validate(member){
@@ -65,11 +91,15 @@ class MemberService extends ApiService{
         if(!member.person.cpf){
             errors.push('O campo CPF é obrigatório.');
         }
-
+        
         if(!member.membership.cod){
             errors.push('O campo Plano de usuário é obrigatório.');
         }
         
+        if(!member.person.gender){
+            errors.push('O campo Gênero é obrigatório.');
+        }
+
         if(errors && errors.length > 0){
             throw new ValidationError(errors);
         }

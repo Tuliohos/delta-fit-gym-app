@@ -30,7 +30,7 @@ class PaymentService extends ApiService{
             dateTimeRecord: state.dateTimeRecord,
             value: state.value,
             status: state.status,
-            type: state.type,
+            method: state.method,
             member: {
                 cod: state.memberCod
             }
@@ -44,13 +44,13 @@ class PaymentService extends ApiService{
             dateTimeRecord: payment.dateTimeRecord,
             value: payment.value,
             status: payment.status,
-            type: payment.type,
+            method: payment.method,
             memberCod: payment.member.cod,
             memberName: payment.member.person.name
         };
     }
 
-    getTypeList(){
+    getMethodList(){
         return [
             {label: 'Selecione...', value: ''},
             {label: 'Dinheiro', value: 'CASH'},
@@ -63,41 +63,47 @@ class PaymentService extends ApiService{
         return [
             {label: 'Selecione...', value: ''},
             {label: 'Pendente', value: 'PENDING'},
-            {label: 'Efetivado', value: 'EFFECTIVE'},
-            {label: 'Atrasado', value: 'LATE'},
-            {label: 'Cancelado', value: 'CANCELED'}
+            {label: 'Efetivado', value: 'COMPLETED'}
         ]
     }
 
-    /*statusHandler(status){
-
-        switch(status){
-            case 'PENDING':
-                return {label: 'Pendente', value: 'PENDING'};
-            case 'EFFECTIVE':
-                return {label: 'Efetivado', value: 'EFFECTIVE'};
-            case 'LATE':
-                return {label: 'Atrasado', value: 'LATE'};
-            case 'CANCELED':
-                return {label: 'Cancelado', value: 'CANCELED'};
-            default:
-                return {label: 'N/D', value: ''};
+    getMonthDescription(month){
+        switch(month){
+            case 'JANUARY':
+                return 'Janeiro'
+            case 'FEBRUARY':
+                return 'Fevereiro'
+            case 'MARCH':
+                return 'Março'
+            case 'APRIL':
+                return 'Abril'
+            case 'MAY':
+                return 'Maio'
+            case 'JUNE':
+                return 'Junho'
+            case 'JULY':
+                return 'Julho'
+            case 'AUGUST':
+                return 'Agosto'
+            case 'SEPTEMBER':
+                return 'Setembro'
+            case 'OCTOBER':
+                return 'Outubro'
+            case 'NOVEMBER':
+                return 'Novembro'
+            case 'DECEMBER':
+                return 'Dezembro'
+            default: return ''
         }
     }
 
-    typeHandler(type){
+    getYearsList(){
+        return this.get('/years');
+    }
 
-        switch(type){
-            case 'CASH':
-                return {label: 'Dinheiro', value: 'CASH'};
-            case 'CREDIT_CARD':
-                return {label: 'Cartão de Crédito', value: 'CREDIT_CARD'};
-            case 'PICPAY':
-                return {label: 'Picpay', value: 'PICPAY'};
-            default:
-                return {label: 'N/D', value: ''};
-        }
-    }*/
+    getMonthlyEarnings(year){
+        return this.get(`/earnings/${year}`)
+    }
 
     validate(payment){
         const errors = []
@@ -110,8 +116,8 @@ class PaymentService extends ApiService{
             errors.push('O campo Status é obrigatório.');
         }
 
-        if(!payment.type){
-            errors.push('O campo Tipo é obrigatório.');
+        if(!payment.method){
+            errors.push('O campo Forma é obrigatório.');
         }
 
         if(errors && errors.length > 0){
