@@ -21,6 +21,10 @@ class Login extends React.Component{
         this.service = new EmployeeService();
         this.localStorageService = new LocalStorageService();
     }
+
+    componentDidMount(){
+        this.context.endSession();
+    }
     
     login = async () => {
         this.service.signIn({

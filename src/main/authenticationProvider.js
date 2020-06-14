@@ -9,8 +9,7 @@ const AuthProvider = AuthContext.Provider;
 class AuthenticationProvider extends React.Component{
 
     state = {
-        authenticatedUser: null,
-        isAuthenticated: false
+        authenticatedUser: null
     }
 
     initSession = (user) => {
@@ -26,7 +25,7 @@ class AuthenticationProvider extends React.Component{
     render(){
         const context = {
             authenticatedUser: this.state.authenticatedUser,
-            isAuthenticated: this.state.isAuthenticated,
+            isAuthenticated: AuthService.isAuthenticatedUser(),
             initSession: this.initSession,
             endSession: this.endSession
         }
