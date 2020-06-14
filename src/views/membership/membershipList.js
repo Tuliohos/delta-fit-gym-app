@@ -94,7 +94,7 @@ class MembershipList extends React.Component{
         )
 
         return (
-            <Card title="Funcionários">
+            <Card title="Plano de usuário">
                 <div className="row">
                     <div className="col-md-12">
                         <Button  

@@ -17,6 +17,7 @@ class EmployeeList extends React.Component{
         name: "",
         cpf: "",
         email: "",
+        position: "",
         employees: [],
         showConfirmDialog: false,
         employeeToDelete: undefined
@@ -107,6 +108,7 @@ class EmployeeList extends React.Component{
                             rows={10} alwaysShowPaginator={false} emptyMessage="Não há funcionários cadastrados.">
                             <Column field="name" header="Nome" filter={true} sortable={true} />
                             <Column field="email" header="E-mail" filter={true}/>
+                            <Column field="position" header="Cargo" filter={true}/>
                             <Column field="dateTimeHire"  header="Data de contratação" filter={true} style={{textAlign:'center'}}/>
                             <Column field="cod" body={this.actionButtons} header="Ações" 
                                 style={{textAlign: 'center', width: '10em', overflow: 'visible'}} />

@@ -8,8 +8,10 @@ import FormGroup from '../../components/form-group'
 import {Button} from 'primereact/button'
 import {InputMask} from 'primereact/inputmask';
 import {InputNumber} from 'primereact/inputnumber'
+import {Dropdown} from 'primereact/dropdown';
 
 import EmployeeService from '../../app/service/employeeService'
+import MemberService from '../../app/service/memberService' 
 
 class EmployeeRegistration extends React.Component{
 
@@ -18,21 +20,26 @@ class EmployeeRegistration extends React.Component{
         personCod: undefined,
         name: '',
         cpf: '',
+        gender: '',
         phoneNumber: '',
         userCod: undefined,
         email: '',
         password: '',
         dateTimeHire: undefined,
         salary: undefined,
+        position: '',
+        genders: [],
         editing: false
     }
 
     constructor(){
         super();
         this.service = new EmployeeService();
+        this.memberService = new MemberService();
     }
 
     componentDidMount(){
+        this.setState({genders: this.memberService.getGenderList()})
         const params = this.props.match.params;
         if(params.cod){
             this.service
@@ -93,6 +100,19 @@ class EmployeeRegistration extends React.Component{
                 </div>
 
                 <div className="row">
+                    <div className="col-md-12">
+                        <FormGroup label="Cargo: *" htmlFor="inputPosition">
+                            <input type="text"
+                                id="inputPosition"
+                                value={this.state.position}
+                                className="form-control"
+                                name="position"
+                                onChange={this.handleChange}/>
+                        </FormGroup>
+                    </div>
+                </div>
+
+                <div className="row">
                     <div className="col-md-6">
                         <FormGroup label="CPF: *" htmlFor="inputCPF">
                             <InputMask
@@ -104,7 +124,22 @@ class EmployeeRegistration extends React.Component{
                                 onChange={this.handleChange}/>
                         </FormGroup>
                     </div>
-                    
+
+                    <div className="col-md-6">
+                        <FormGroup label="Gênero: *" htmlFor="inputGender">
+                            <Dropdown optionLabel="label" 
+                                optionValue="value" 
+                                className="form-control-plaintext"
+                                value={this.state.gender} 
+                                options={this.state.genders} 
+                                name="gender"
+                                onChange={this.handleChange} 
+                                placeholder="Selecione um gênero"/>
+                        </FormGroup>
+                    </div>
+                </div>
+
+                <div className="row">
                     <div className="col-md-6">
                         <FormGroup label="Salário: *" htmlFor="inputSalary">
                             <InputNumber
@@ -117,9 +152,7 @@ class EmployeeRegistration extends React.Component{
                                 onChange={this.handleChange}/>
                         </FormGroup>
                     </div>
-                </div>
 
-                <div className="row">
                     <div className="col-md-6">
                         <FormGroup label="E-mail:" htmlFor="inputEmail">
                             <input type="email"
@@ -131,6 +164,9 @@ class EmployeeRegistration extends React.Component{
                         </FormGroup>
                     </div>
                
+                </div>
+
+                <div className="row">
                     <div className="col-md-6">
                         <FormGroup label="Senha:" htmlFor="inputPassword">
                             <input type="password"
@@ -141,9 +177,7 @@ class EmployeeRegistration extends React.Component{
                                 onChange={this.handleChange}/>
                         </FormGroup>
                     </div>
-                </div>
 
-                <div className="row">
                     <div className="col-md-6">
                         <FormGroup label="Telefone:" htmlFor="inputPhoneNumber">
                             <input type="text"

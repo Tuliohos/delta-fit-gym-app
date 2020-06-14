@@ -20,7 +20,7 @@ class PaymentRegistration extends React.Component{
         dateTimeRecord: undefined,
         value: undefined,
         status: '',
-        type: '',
+        method: '',
         memberCod: undefined,
         members: [],
         editing: false
@@ -84,7 +84,7 @@ class PaymentRegistration extends React.Component{
 
     render(){
         const statusList = this.service.getStatusList();
-        const typeList = this.service.getTypeList();
+        const methodList = this.service.getMethodList();
 
         return(
             <Card title= {this.state.editing ? 'Edição de Pagamento' : 'Cadastro de Pagamento'}>
@@ -120,7 +120,7 @@ class PaymentRegistration extends React.Component{
                         <FormGroup label="Membro: *" htmlFor="inputMember">
                             <Dropdown 
                                 id="inputMember"
-                                optionLabel="person.name" 
+                                optionLabel="name" 
                                 optionValue="cod" 
                                 className="form-control-plaintext"
                                 value={this.state.memberCod} 
@@ -136,15 +136,15 @@ class PaymentRegistration extends React.Component{
                 <div className="row">
 
                     <div className="col-md-6">
-                        <FormGroup label="Tipo: *" htmlFor="inputType">
+                        <FormGroup label="Forma: *" htmlFor="inputType">
                             <Dropdown 
                                 id="inputType"
                                 optionLabel="label" 
                                 optionValue="value" 
                                 className="form-control-plaintext"
-                                value={this.state.type} 
-                                options={typeList}
-                                name="type"
+                                value={this.state.method} 
+                                options={methodList}
+                                name="method"
                                 onChange={this.handleChange} 
                                 placeholder="Selecione um tipo"/>
                         </FormGroup>

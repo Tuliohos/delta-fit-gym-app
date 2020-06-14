@@ -35,11 +35,13 @@ class EmployeeService extends ApiService{
                 cod: state.personCod,
                 name: state.name,
                 cpf: state.cpf,
+                gender: state.gender,
                 phoneNumber: state.phoneNumber
             },
             user: undefined,
             dateTimeHire: state.dateTimeHire,
-            salary: state.salary
+            salary: state.salary,
+            position: state.position
         }
 
          if (state.email || state.password){
@@ -60,9 +62,11 @@ class EmployeeService extends ApiService{
             personCod: employee.person.cod,
             name: employee.person.name,
             cpf: employee.person.cpf,
+            gender: employee.person.gender,
             phoneNumber: employee.person.phoneNumber,
             dateTimeHire: employee.dateTimeHire,
             salary: employee.salary,
+            position: employee.position,
             userCod: undefined,
             email: '',
             password: ''
@@ -71,7 +75,7 @@ class EmployeeService extends ApiService{
         if(employee.user){
             state.userCod = employee.user.cod;
             state.email = employee.user.email;
-            state.password = employee.user.email;
+            state.password = employee.user.password;
         }
         
         return state;
@@ -90,6 +94,18 @@ class EmployeeService extends ApiService{
 
         if(!employee.person.cpf){
             errors.push('O campo Salário é obrigatório.');
+        }
+
+        if(!employee.person.gender){
+            errors.push('O campo Gênero é obrigatório.');
+        }
+
+        if(!employee.salary){
+            errors.push('O campo Salário é obrigatório.');
+        }
+
+        if(!employee.position){
+            errors.push('O campo Cargo é obrigatório.');
         }
 
         if(employee.user){

@@ -39,13 +39,10 @@ class PaymentList extends React.Component{
         this.props.history.push(`/cadastro-pagamento/${cod}`);
     }
 
-    delete = () => {
-        this.service.deletePayment(this.state.paymentToDelete.cod)
+    cancel = () => {
+        this.service.cancelPayment(this.state.paymentToDelete.cod)
         .then(response => {
-            const payments = this.state.payments;
-            const index = payments.indexOf(this.state.paymentToDelete);
-            payments.splice(index, 1);
-            this.setState({payments: payments, showConfirmDialog: false});
+            this.setState({showConfirmDialog: false});
             successMessage("Plano de usuário deletado com sucesso!");
         }).catch(error =>{
             errorMessage("Ocorreu um erro ao tentar deletar o plano de usuário");
@@ -67,12 +64,13 @@ class PaymentList extends React.Component{
                     tooltip="Editar"
                     icon="pi pi-pencil"
                     className="p-button-secondary"
-                    disabled={rowData.status === "Cancelado"}
+                    disabled={rowData.status === "Cancelado" || rowData.status === "Efetivado"}
                     onClick={()=>this.renderPaymentEditing(rowData.cod)}/>
                 <Button  
                     tooltip="Cancelar"
                     icon="pi pi-times"
                     className="p-button-secondary"
+                    disabled={rowData.status === "Cancelado" || rowData.status === "Efetivado"}
                     onClick={()=>this.showConfirmDialog(rowData)}/>
             </div>   
         )
@@ -86,7 +84,7 @@ class PaymentList extends React.Component{
 
         const confirmDialogFooter = (
             <div>
-                <Button label="Confirmar" icon="pi pi-check" onClick={this.delete} />
+                <Button label="Confirmar" icon="pi pi-check" onClick={this.cancel} />
                 <Button label="Cancelar" icon="pi pi-times" onClick={this.cancelDeleteAction} className="p-button-secondary"/>
             </div>
         )
@@ -111,7 +109,7 @@ class PaymentList extends React.Component{
                             <Column field="description" header="Descrição" filter={true}/>
                             <Column field="value" header="Valor" body={this.priceBody} filter={true}/>
                             <Column field="dateTimeRecord" header="Data de realização" filter={true} style={{textAlign:'center'}}/>
-                            <Column field="type" header="Forma de pagamento" filter={true}/>
+                            <Column field="method" header="Forma de pagamento" filter={true}/>
                             <Column field="status" header="Status" filter={true}/>
                             <Column field="cod" body={this.actionButtons}  header="Ações" 
                                 style={{textAlign: 'center', width: '10em', overflow: 'visible'}} />

@@ -19,10 +19,12 @@ class MemberRegistration extends React.Component{
         personCod: undefined,
         name: '',
         cpf: '',
+        gender: '',
         phoneNumber: '',
         membershipCod: undefined,
         dateTimeRegistration: undefined,
         memberships: [],
+        genders: [],
         editing: false
     }
 
@@ -39,6 +41,8 @@ class MemberRegistration extends React.Component{
         }).catch(error =>{
             errorMessage(error.response.data);
         })
+
+        this.setState({genders: this.service.getGenderList()})
 
         const params = this.props.match.params;
         if(params.cod){
@@ -113,7 +117,7 @@ class MemberRegistration extends React.Component{
                     </div>
 
                     <div className="col-md-6">
-                        <FormGroup label="Plano de usuário: *" htmlFor="inputCPF">
+                        <FormGroup label="Plano de usuário: *" htmlFor="inputMembership">
                             <Dropdown optionLabel="description" 
                                 optionValue="cod" 
                                 className="form-control-plaintext"
@@ -128,6 +132,19 @@ class MemberRegistration extends React.Component{
                 </div>
 
                 <div className="row">
+                    <div className="col-md-6">
+                        <FormGroup label="Gênero: *" htmlFor="inputGender">
+                            <Dropdown optionLabel="label" 
+                                optionValue="value" 
+                                className="form-control-plaintext"
+                                value={this.state.gender} 
+                                options={this.state.genders} 
+                                name="gender"
+                                onChange={this.handleChange} 
+                                placeholder="Selecione um gênero"/>
+                        </FormGroup>
+                    </div>
+
                     <div className="col-md-6">
                         <FormGroup label="Telefone:" htmlFor="inputPhoneNumber">
                             <input type="text"
