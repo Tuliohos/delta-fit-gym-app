@@ -1,12 +1,19 @@
 import React from 'react'
 import NavbarItem from './navbar-item'
+
+import icon from '../assets/gym-icon.png';
+
 import{ AuthConsumer } from '../main/authenticationProvider'
 
 function Navbar(props){
+
     return (
         <div className="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
         <div className="container">
-            <a href="#/home" className="navbar-brand">Delta Fit Gym</a>
+            <a href="#/home" className="navbar-brand">
+                Delta Fit Gym
+                <img src={icon} alt="" className="image-logo"/>
+            </a>
             <button className="navbar-toggler" type="button"
                  data-toggle="collapse" data-target="#navbarResponsive" 
                  aria-controls="navbarResponsive" aria-expanded="false" 

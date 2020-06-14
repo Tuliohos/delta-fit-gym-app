@@ -3,3 +3,8 @@ body{padding-top:120px}pre{background:#f7f7f9}@media (min-width: 768px){body>.na
 .p-button{
     margin-right: 5px !important;
 }
+
+.image-logo{
+    width: 30px;
+    padding-left: 3px;
+}
