@@ -117,6 +117,7 @@ class Home extends React.Component{
         return(
             <Card title='Gráficos'>
                 <h3 className="text-center">Rendimento mensal</h3>
+                <br/>
                     {
                         this.state.yearsList.length > 0 ? 
                         (
@@ -147,7 +148,7 @@ class Home extends React.Component{
                     
                 <br/>
                 <hr/>
-                <h3 className="text-center">Gêneros dos membros</h3>
+                <h3 className="text-center">Gênero dos membros</h3>
                 <br/>
                 <div className="row">
                     <div className="col-md-12">
