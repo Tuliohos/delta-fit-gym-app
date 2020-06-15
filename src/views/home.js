@@ -82,7 +82,7 @@ class Home extends React.Component{
                 let monthlyEarningChartValues = [];
         
                 response.data.forEach(monthlyEarning => {
-                    monthlyEarningChartLabels.push(this.paymentService.getMonthDescription(monthlyEarning.month));
+                    monthlyEarningChartLabels.push(this.service.getMonthDescription(monthlyEarning.month));
                     monthlyEarningChartValues.push(monthlyEarning.value);
                 });
 

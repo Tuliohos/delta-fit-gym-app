@@ -22,12 +22,34 @@ class HomeService {
             }
     }
 
-    getMembersGenderInitialLabels(){
-        return ['Não há dados']
-    }
-
-    getMembersGenderInitialValues(){
-        return [0]
+    getMonthDescription(month){
+        switch(month){
+            case 'JANUARY':
+                return 'Janeiro'
+            case 'FEBRUARY':
+                return 'Fevereiro'
+            case 'MARCH':
+                return 'Março'
+            case 'APRIL':
+                return 'Abril'
+            case 'MAY':
+                return 'Maio'
+            case 'JUNE':
+                return 'Junho'
+            case 'JULY':
+                return 'Julho'
+            case 'AUGUST':
+                return 'Agosto'
+            case 'SEPTEMBER':
+                return 'Setembro'
+            case 'OCTOBER':
+                return 'Outubro'
+            case 'NOVEMBER':
+                return 'Novembro'
+            case 'DECEMBER':
+                return 'Dezembro'
+            default: return ''
+        }
     }
 
     membersGenderDataConstructor(labels, values){

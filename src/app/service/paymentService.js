@@ -50,53 +50,6 @@ class PaymentService extends ApiService{
         };
     }
 
-    getMethodList(){
-        return [
-            {label: 'Selecione...', value: ''},
-            {label: 'Dinheiro', value: 'CASH'},
-            {label: 'Cartão de Crédito', value: 'CREDIT_CARD'},
-            {label: 'Picpay', value: 'PICPAY'},
-        ]
-    }
-
-    getStatusList(){
-        return [
-            {label: 'Selecione...', value: ''},
-            {label: 'Pendente', value: 'PENDING'},
-            {label: 'Efetivado', value: 'COMPLETED'}
-        ]
-    }
-
-    getMonthDescription(month){
-        switch(month){
-            case 'JANUARY':
-                return 'Janeiro'
-            case 'FEBRUARY':
-                return 'Fevereiro'
-            case 'MARCH':
-                return 'Março'
-            case 'APRIL':
-                return 'Abril'
-            case 'MAY':
-                return 'Maio'
-            case 'JUNE':
-                return 'Junho'
-            case 'JULY':
-                return 'Julho'
-            case 'AUGUST':
-                return 'Agosto'
-            case 'SEPTEMBER':
-                return 'Setembro'
-            case 'OCTOBER':
-                return 'Outubro'
-            case 'NOVEMBER':
-                return 'Novembro'
-            case 'DECEMBER':
-                return 'Dezembro'
-            default: return ''
-        }
-    }
-
     getYearsList(){
         return this.get('/years');
     }
@@ -122,6 +75,56 @@ class PaymentService extends ApiService{
 
         if(errors && errors.length > 0){
             throw new ValidationError(errors);
+        }
+    }
+
+    getMethodList(){
+        return [
+            {label: 'Selecione...', value: ''},
+            {label: 'Dinheiro', value: 'CASH'},
+            {label: 'Cartão de Crédito', value: 'CREDIT_CARD'},
+            {label: 'Picpay', value: 'PICPAY'},
+        ]
+    }
+
+    getStatusList(){
+        return [
+            {label: 'Selecione...', value: ''},
+            {label: 'Pendente', value: 'PENDING'},
+            {label: 'Efetivado', value: 'COMPLETED'}
+        ]
+    }
+
+    translateLabels(paymentList){
+        paymentList.forEach(payment => {
+            payment.status = this.getStatusDescription(payment.status);
+            payment.method = this.getMethodDescription(payment.method);
+        });
+    }
+
+    getStatusDescription(status){
+        switch(status){
+            case 'PENDING':
+                return 'Pendente';
+            case 'COMPLETED':
+                return 'Efetivado';
+            case 'CANCELED':
+                return 'Cancelado';
+            default: 
+                return '';
+        }
+    }
+
+    getMethodDescription(method){
+        switch(method){
+            case 'CASH':
+                return 'Dinheiro';
+            case 'CREDIT_CARD':
+                return 'Cartão de crédito';
+            case 'PICPAY':
+                return 'Picpay';
+            default: 
+                return '';
         }
     }
 

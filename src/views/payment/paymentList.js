@@ -27,7 +27,10 @@ class PaymentList extends React.Component{
 
     componentDidMount() {
         this.service.loadList()
-            .then(response => this.setState({payments: response.data}))
+            .then(response => {
+                this.service.translateLabels(response.data);
+                this.setState({payments: response.data})
+            })
             .catch(error => errorMessage(error));
     }
 

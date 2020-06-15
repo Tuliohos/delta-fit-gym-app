@@ -93,7 +93,7 @@ class MemberList extends React.Component{
         )
 
         return (
-            <Card title="Funcionários">
+            <Card title="Membros">
                 <div className="row">
                     <div className="col-md-12">
                         <Button  

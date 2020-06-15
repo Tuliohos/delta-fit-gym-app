@@ -87,6 +87,10 @@ class EmployeeService extends ApiService{
         if(!employee.person.name){
             errors.push('O campo Nome é obrigatório.');
         }
+        
+        if(!employee.position){
+            errors.push('O campo Cargo é obrigatório.');
+        }
 
         if(!employee.person.cpf){
             errors.push('O campo CPF é obrigatório.');
@@ -102,10 +106,6 @@ class EmployeeService extends ApiService{
 
         if(!employee.salary){
             errors.push('O campo Salário é obrigatório.');
-        }
-
-        if(!employee.position){
-            errors.push('O campo Cargo é obrigatório.');
         }
 
         if(employee.user){

@@ -70,7 +70,7 @@ class MemberRegistration extends React.Component{
 
         this.service.save(member)
             .then(response => {
-                successMessage('Membro cadastrado com sucesso!')
+                successMessage(this.state.editing ? 'Membro cadastrado com sucesso!' : 'Membro atualizado com sucesso!');
                 this.props.history.push('/lista-membros');
             }).catch(error =>{
                 errorMessage(error.response.data);
