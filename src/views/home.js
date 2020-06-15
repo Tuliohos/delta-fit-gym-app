@@ -98,12 +98,19 @@ class Home extends React.Component{
     render(){
 
         const options = {
-            title: {
-                display: true,
-                fontSize: 16
-            },
             legend: {
                 position: 'top'
+            },
+            scales: {
+                yAxes: [{
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    id: 'y-axis-1',
+                    ticks: {
+                        min: 0
+                    }
+                }]
             }
         };
         
