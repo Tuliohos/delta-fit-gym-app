@@ -66,7 +66,7 @@ class PaymentRegistration extends React.Component{
 
         this.service.save(payment)
             .then(response => {
-                successMessage(this.state.editing ? 'Pagamento cadastrado com sucesso!' : 'Pagamento atualizado com sucesso!')
+                successMessage(this.state.editing ? 'Pagamento atualizado com sucesso!' : 'Pagamento cadastrado com sucesso!')
                 this.props.history.push('/lista-pagamentos');
             }).catch(error =>{
                 errorMessage(error.response.data);

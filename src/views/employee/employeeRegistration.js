@@ -66,7 +66,7 @@ class EmployeeRegistration extends React.Component{
 
         this.service.save(employee)
             .then(response => {
-                successMessage(this.state.editing ? 'Funcionário cadastrado com sucesso!' : 'Funcionário atualizado com sucesso!');
+                successMessage(this.state.editing ? 'Funcionário atualizado com sucesso!' : 'Funcionário cadastrado com sucesso!');
                 this.props.history.push('/lista-funcionarios');
             }).catch(error =>{
                 errorMessage(error.response.data);

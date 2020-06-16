@@ -51,7 +51,7 @@ class MembershipRegistration extends React.Component{
 
         this.service.save(membership)
             .then(response => {
-                successMessage(this.state.editing ? 'Plano de usuário cadastrado com sucesso!' : 'Plano de usuário atualizado com sucesso!')
+                successMessage(this.state.editing ? 'Plano de usuário atualizado com sucesso!' : 'Plano de usuário cadastrado com sucesso!')
                 this.props.history.push('/lista-planos-usuario');
             }).catch(error =>{
                 errorMessage(error.response.data);
