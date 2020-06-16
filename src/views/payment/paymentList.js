@@ -45,10 +45,13 @@ class PaymentList extends React.Component{
     cancel = () => {
         this.service.cancelPayment(this.state.paymentToDelete.cod)
         .then(response => {
-            this.setState({showConfirmDialog: false});
-            successMessage("Plano de usuário deletado com sucesso!");
+            const payments = this.state.payments;
+            const index = payments.indexOf(this.state.paymentToDelete);
+            payments[index].status = this.service.getStatusDescription('CANCELED');
+            this.setState({payments, showConfirmDialog: false});
+            successMessage("Pagamento cancelado com sucesso!");
         }).catch(error =>{
-            errorMessage("Ocorreu um erro ao tentar deletar o plano de usuário");
+            errorMessage("Ocorreu um erro ao tentar cancelar o pagamento");
         })
     }
 

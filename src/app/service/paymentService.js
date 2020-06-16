@@ -61,6 +61,10 @@ class PaymentService extends ApiService{
     validate(payment){
         const errors = []
 
+        if(!payment.description){
+            errors.push('O campo Descrição é obrigatório.');
+        }
+
         if(!payment.value){
             errors.push('O campo Valor é obrigatório.');
         }
@@ -71,6 +75,10 @@ class PaymentService extends ApiService{
 
         if(!payment.method){
             errors.push('O campo Forma é obrigatório.');
+        }
+
+        if(!payment.member.cod){
+            errors.push('O campo Membro é obrigatório.');
         }
 
         if(errors && errors.length > 0){
